@@ -25,4 +25,7 @@ public final class CBArguments {
     public static final String BOOTSTRAP_CARRIER_DIRECT_PORT = "bootstrap_carrier_direct_port";
     public static final String TIMEOUT = "timeout";
     public static final String DEBUG = "debug";
+    public static final String RANDOM_KEY = "random_key";
+    public static final String RANDOM_KEY_MIN = "random_key_min";
+    public static final String RANDOM_KEY_MAX = "random_key_max";
 }

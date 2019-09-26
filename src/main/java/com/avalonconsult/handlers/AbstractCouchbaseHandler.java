@@ -7,8 +7,8 @@ import com.couchbase.client.java.cluster.ClusterManager;
 import com.couchbase.client.java.env.CouchbaseEnvironment;
 import com.couchbase.client.java.env.DefaultCouchbaseEnvironment;
 import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
-import org.apache.jorphan.logging.LoggingManager;
-import org.apache.log.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,7 +19,7 @@ import static com.avalonconsult.constants.CBArguments.*;
  * @author moorejm
  */
 public abstract class AbstractCouchbaseHandler implements ICouchbaseHandler {
-    protected static final Logger LOGGER = LoggingManager.getLoggerForClass();
+    protected static final Logger LOGGER = LoggerFactory.getLogger(AbstractCouchbaseHandler.class);
     protected static volatile DefaultCouchbaseEnvironment couchbaseEnv;
     protected static volatile Cluster cluster;
     protected static volatile Bucket bucket;

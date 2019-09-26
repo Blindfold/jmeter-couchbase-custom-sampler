@@ -7,7 +7,8 @@ import com.couchbase.client.java.Cluster;
 import org.apache.jmeter.protocol.java.sampler.AbstractJavaSamplerClient;
 import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
 import org.apache.jmeter.samplers.SampleResult;
-import org.apache.jorphan.logging.LoggingManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.PrintWriter;
 import java.io.Serializable;
@@ -20,7 +21,7 @@ public class CBSampler extends AbstractJavaSamplerClient implements Serializable
 
     public static final String ENCODING = "UTF-8";
     private static final long serialVersionUID = 3L;
-    private static final org.apache.log.Logger LOGGER = LoggingManager.getLoggerForClass();
+    private static final Logger LOGGER = LoggerFactory.getLogger(CBSampler.class);;
 
     private ICouchbaseHandler cbHandler;
 
@@ -44,8 +45,10 @@ public class CBSampler extends AbstractJavaSamplerClient implements Serializable
         defaultParameters.addArgument(N1QL_QUERY, "");
         defaultParameters.addArgument(ASYNC, "false");
         defaultParameters.addArgument(DEBUG, "true");
-
         defaultParameters.addArgument(BOOTSTRAP_CARRIER_DIRECT_PORT, "11210");
+        defaultParameters.addArgument(RANDOM_KEY, "false");
+        defaultParameters.addArgument(RANDOM_KEY_MIN, "0");
+        defaultParameters.addArgument(RANDOM_KEY_MAX, "1000000");
 
         return defaultParameters;
     }
