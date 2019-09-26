@@ -7,6 +7,7 @@ import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Random;
 
 /**
  * @author moorejm
@@ -14,28 +15,39 @@ import java.nio.file.Paths;
 public class PutHandler extends AbstractCouchbaseHandler {
 
     protected String putContents;
+    protected boolean random_key;
+    protected int random_key_min;
+    protected int random_key_max;
     protected String key;
     protected String value;
+    private Random random;
 
     public PutHandler(JavaSamplerContext context) {
         super(context);
 
-        key = context.getParameter(CBArguments.KEY);
-        value = context.getParameter(CBArguments.VALUE);
+        this.random = new Random();
+        this.random_key = context.getParameter(CBArguments.RANDOM_KEY, "false").equals("true");
+        this.random_key_min = context.getIntParameter(CBArguments.RANDOM_KEY_MIN, 0);
+        this.random_key_max = context.getIntParameter(CBArguments.RANDOM_KEY_MAX, 1000000);
+        this.key = context.getParameter(CBArguments.KEY);
+        this.value = context.getParameter(CBArguments.VALUE);
 
         String file = context.getParameter(CBArguments.LOCAL_FILE_PATH);
-        try {
-            this.putContents = Files.readAllBytes(Paths.get(file)).toString();
-        } catch (IOException e) {
-            LOGGER.error(getClass().getSimpleName() + ": File read error", e);
+        if (!(file == null || file.isEmpty())) {
+            try {
+                this.putContents = Files.readAllLines(Paths.get(file)).toString();
+            } catch (IOException e) {
+                LOGGER.error(getClass().getSimpleName() + ": File read error", e);
+            }
         }
 
     }
 
     @Override
     public void handle() {
-        String key = context.getParameter(CBArguments.KEY);
-        String value = context.getParameter(CBArguments.VALUE);
+        if (random_key) {
+            key = String.valueOf(random.nextInt(random_key_max - random_key_min));
+        }
 
         if (value.isEmpty()) {
             value = this.putContents;

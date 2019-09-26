@@ -3,7 +3,7 @@ package com.avalonconsult.handlers;
 import java.util.Random;
 
 import com.avalonconsult.constants.CBArguments;
-import com.couchbase.client.java.document.RawJsonDocument;
+import com.couchbase.client.java.document.StringDocument;
 import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
 
 /**
@@ -37,7 +37,7 @@ public class GetHandler extends AbstractCouchbaseHandler {
                     getClass().getSimpleName(), key));
         }
 
-        RawJsonDocument doc = bucket.get(key, RawJsonDocument.class);
+        StringDocument doc = bucket.get(key, StringDocument.class);
 
         if (debug && doc != null) {
             LOGGER.info("GET Result: " + String.valueOf(doc.content()));
